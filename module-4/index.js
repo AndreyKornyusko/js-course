@@ -9,10 +9,10 @@ const products = {
 };
 
 const order = {
-  bread: 2,
-  milk: 2,
-  apples: 1,
   cheese: 1,
+  milk: 2,
+  bread: 2,
+  apples: 1,
 };
 
 function Cashier(name, productsDatabase) {
@@ -38,30 +38,38 @@ function Cashier(name, productsDatabase) {
   };
   //  выбор товара и подсчет суммы
   this.countTotalPrice = function(order) {
-    let orderKey;
-    let productsKey;
-    let orderValue;
-    let productsValue;
-    const totalOrderPrices = [];
-
-    for (const key in order) {
-      orderKey = key;
-      orderValue = order[key];
-
-      for (const key in products) {
-        productsKey = key;
-        productsValue = products[key];
-        if (orderKey === productsKey) {
-          totalOrderPrices.push(orderValue * productsValue);
-        }
-      }
+    const orderAll = Object.entries(order);
+    for (let elem of orderAll) {
+      this.totalPrice += productsDatabase[elem[0]] * order[elem[0]];
     }
-    let total = 0;
-    for (let value of totalOrderPrices) {
-      total += value;
-    }
-    this.totalPrice = total;
   };
+
+  // this.countTotalPrice = function(order) {
+  //   let orderKey;
+  //   let productsKey;
+  //   let orderValue;
+  //   let productsValue;
+  //   const totalOrderPrices = [];
+
+  //   for (const key in order) {
+  //     orderKey = key;
+  //     orderValue = order[key];
+
+  //     for (const key in productsDatabase) {
+  //       productsKey = key;
+  //       productsValue = productsDatabase[key];
+  //       if (orderKey === productsKey) {
+  //         totalOrderPrices.push(orderValue * productsValue);
+  //       }
+  //     }
+  //   }
+  //   let total = 0;
+  //   for (let value of totalOrderPrices) {
+  //     total += value;
+  //   }
+  //   this.totalPrice = total;
+  // };
+
   // ввод денег
   this.getCustomerMoney = function(value) {
     value = Number(prompt('Введите деньги'));
@@ -71,7 +79,7 @@ function Cashier(name, productsDatabase) {
   this.countChange = function() {
     if (this.customerMoney - this.totalPrice >= 0) {
       return (this.changeAmount = this.customerMoney - this.totalPrice);
-    } else if (this.customerMoney - this.totalPrice < 0) {
+    } else {
       return null;
     }
   };
@@ -80,7 +88,7 @@ function Cashier(name, productsDatabase) {
     if (this.customerMoney - this.totalPrice >= 0) {
       console.log(' ===============');
       console.log('Товарный чек');
-      console.log("Кассир",this.name )
+      console.log('Кассир', this.name);
       let orderKey;
       let productsKey;
       let orderValue;
@@ -90,9 +98,9 @@ function Cashier(name, productsDatabase) {
         orderKey = key;
         orderValue = order[key];
 
-        for (const key in products) {
+        for (const key in productsDatabase) {
           productsKey = key;
-          productsValue = products[key];
+          productsValue = productsDatabase[key];
           if (orderKey === productsKey) {
             console.log(
               `${orderKey}  ${productsValue}x${orderValue} = ${productsValue *
@@ -102,7 +110,7 @@ function Cashier(name, productsDatabase) {
         }
       }
       console.log('Всего к оплате', this.totalPrice);
-      console.log('Сдача', this.changeAmount)
+      console.log('Сдача', this.changeAmount);
       console.log(' ===============');
     }
   };

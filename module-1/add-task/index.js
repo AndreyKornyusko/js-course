@@ -17,11 +17,11 @@ const CHOISE_NO = 'Нам очень жаль, приходите еще!';
 const NO_SEATS = 'Извините, столько мест нет ни в одной группе!';
 
 let numberOfSeats = prompt(START_MASSEGE);
-if (Number(numberOfSeats) <= 0) {
+if (
+  Number(numberOfSeats) <= 0 || 
+  Number.isInteger(Number(numberOfSeats)) == false) {
   alert(WARNING_MASSEGE);
-} else if (Number.isInteger(Number(numberOfSeats)) == false) {
-  alert(WARNING_MASSEGE);
-} else if (Number(numberOfSeats) <= taba) {
+ } else if (Number(numberOfSeats) <= taba) {
   let choiseTaba = confirm(CHOISE_TABA);
   if (choiseTaba == true) {
     alert(CHOISE_YES_TABA);

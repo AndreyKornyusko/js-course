@@ -10,24 +10,11 @@ let login;
 login = prompt(LOGIN_MASSEGE);
 
 const checkLoginValidity = function(log) {
-  let isValidity;
-  if (log.length >= 4 && log.length <= 16) {
-    isValidity = true;
-  } else {
-    isValidity = false;
-  }
-  return isValidity;
+  return log.length >= 4 && log.length <= 16; 
 };
 
 const checkIfLoginExists = function(logs, log) {
-  logs = logins;
-  let isLoginExists;
-  if (logs.includes(log)) {
-    isLoginExists = true;
-  } else {
-    isLoginExists = false;
-  }
-  return isLoginExists;
+  return logs.includes(log);
 };
 
 const addLogin = function(logs, log) {
