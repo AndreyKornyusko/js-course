@@ -217,4 +217,34 @@ const getUserNamesSortedByFriendsCount = arr => {
 };
 
 console.log(getUserNamesSortedByFriendsCount(users));
+
 // // [ 'Moore Hensley', 'Sharlene Bush', 'Elma Head', 'Carey Barr', 'Blackburn Dotson', 'Sheree Anthony', 'Ross Vazquez' ]
+
+/* Задача на подумать.
+*
+* Если массив оценок пользователей. Необходимо написать
+* код который:
+*  - Выберет все оценки пользователя с указанным id.
+*  - Отсортирует их в возврастающем порядке.
+*  - Выберет первые N оценок и посчитает среднюю оценку
+*/
+const scores = [
+  { id: 1, score: 5 },
+  { id: 2, score: 10 },
+  { id: 2, score: 15 },
+  { id: 1, score: 10 },
+  { id: 2, score: 20 },
+  { id: 2, score: 10 },
+];
+
+const getUsersScores = (arr, ID, N) => {
+  const getScores = arr
+    .filter(arr => arr.id === ID)
+    .map(arr => arr.score)
+    .sort();
+  getScores.length = N;
+  return getScores.reduce((acc, value) => acc + value, 0) / N;
+};
+
+console.log(getUsersScores(scores, 1, 2));
+console.log(getUsersScores(scores, 2, 3));
