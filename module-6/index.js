@@ -36,10 +36,11 @@ class Hamburger {
    * Добавить topping к гамбургеру. Можно добавить несколько topping, при условии, что они разные.
    * @param {String} topping - Тип добавки
    */
-  addTopping(topping) { 
-    !this.toppings.includes(topping) 
-    ? this.toppings.push(topping) : this.toppings;
-    }
+  addTopping(topping) {
+    !this.toppings.includes(topping)
+      ? this.toppings.push(topping)
+      : this.toppings;
+  }
 
   /**
    * Убрать topping, при условии, что она ранее была добавлена

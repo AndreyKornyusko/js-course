@@ -1,6 +1,5 @@
 'use strict';
 
-
 /*  
   Создайте функцию findLargestNumber(numbers), 
   которая получает массив чисел numbers, и возвращает 
@@ -9,8 +8,8 @@
 function findLargestNumber(numbers) {
   for (let i = 0, max = numbers.length; i <= max; i += 1) {
     if (numbers[0] < numbers[i]) {
-      numbers[0] === numbers[i];
-      // numbers.shift();
+      // numbers[0] = numbers[i];
+      numbers.shift();
     }
   }
   return numbers[0];
