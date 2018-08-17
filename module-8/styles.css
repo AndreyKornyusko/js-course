@@ -1,78 +1,59 @@
-html {
+* {
   box-sizing: border-box;
+  padding: 0;
+  margin: 0;
 }
 
-*,
-*::before,
-*::after {
-  box-sizing: inherit;
+.image-gallery {
+  width: 100%;
+  max-width: 70rem;
+  margin: 0 auto;
+  padding: 1rem;
+}
+.fullview {
+  width: 100%;
+  margin: 0 auto;
+  margin-bottom: 3.5rem;
+  padding: 1rem;
+  box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.2),
+    0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 3px 1px -2px rgba(0, 0, 0, 0.12);
 }
 
-body {
-  font-family: 'Roboto', sans-serif;
-  font-size: 16px;
-}
-
-img {
+.fullview img {
   display: block;
-  max-width: 100%;
+  width: 100%;
   height: auto;
 }
 
-.post {
-  width: 400px;
-  padding: 8px;
-  box-shadow: 0 0 4px 2px rgba(0, 0, 0, 0.2);
-  border-radius: 2px;
-  color: #212121;
-  margin: 0 auto;
+.preview {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  list-style: none;
+  padding: 1rem;
+  box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.2),
+    0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 3px 1px -2px rgba(0, 0, 0, 0.12);
 }
 
-.post__image {
-  margin-bottom: 8px;
+.preview li {
+  width: 17.78rem;
+  list-style: none;
+  padding: 0.3rem;
+  margin-bottom: 1rem;
+  border: 2px solid rgb(221, 221, 216);
 }
 
-.post__title {
-  margin: 0;
-  margin-bottom: 16px;
-  font-size: 32px;
-  font-weight: 500;
-}
-
-.post__text {
-  margin: 0;
-  margin-bottom: 16px;
-  line-height: 1.5;
-}
-
-.button {
-  position: relative;
-  display: inline-block;
-  border: none;
-  border-radius: 3px;
-  padding: 0 1.5em;
-  vertical-align: top;
-
-  font-size: 15px;
-  line-height: 2.8;
-  color: #222;
-  text-transform: uppercase;
-  text-align: center;
-  white-space: nowrap;
-  font-family: inherit;
-  font-weight: 500;
-  text-decoration: none;
-
-  background-color: #fff;
-  overflow: hidden;
-  z-index: 0;
+.preview li img {
+  display: block;
+  max-width: 100%;
+  height: auto;
   cursor: pointer;
-
-  box-shadow: 0 2px 1px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.3);
-  transition: background-color 0.3s, box-shadow 0.3s, opacity 0.3s, color 0.3s;
-  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 
-.button:hover {
-  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1), 0 4px 8px rgba(0, 0, 0, 0.3);
+.preview li:hover {
+  border: 2px solid rgb(71, 115, 151);
+}
+
+.preview li:active {
+  box-shadow: 5px 5px 10px rgb(100, 150, 207);
 }
