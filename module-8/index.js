@@ -152,10 +152,10 @@ const createGallery = arr => {
     event.preventDefault();
     if (event.target !== event.currentTarget) {
       const parentNode = event.target.parentNode;
-      
+
       const previewImgsLiArr = document.querySelectorAll('.preview-item');
       const previewArr = Array.from(previewImgsLiArr);
-      previewArr.forEach(imgLi=>imgLi.style.backgroundColor = 'rgb(255, 255, 255)');
+      previewArr.forEach(imgLi => imgLi.style.backgroundColor = 'rgb(255, 255, 255)');
       
       parentNode.style.backgroundColor = `rgb(${getRandomInRange(0, 255)}, ${getRandomInRange(0, 255)}, ${getRandomInRange(0, 255)})`;
 
