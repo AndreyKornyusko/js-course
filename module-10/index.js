@@ -47,8 +47,10 @@ function onClick(evt) {
   }
 }
 
-// должна вернуть текущий список всех пользователей в БД.
+// Возвращает текущий список всех пользователей в БД.
 function getAllUsers(evt) {
+  if (evt.target.nodeName !== 'BUTTON') return;
+
   fetch('https://test-users-api.herokuapp.com/users/')
     .then(response => {
       if (response.ok) return response.json();
@@ -62,8 +64,9 @@ function getAllUsers(evt) {
     });
 }
 
-// должна вернуть пользователя с переданным id
+// Возвращает пользователя с переданным id
 function getUserById(evt, id) {
+  if (evt.target.nodeName !== 'BUTTON') return;
   id = inputId.value.trim();
   if (id === '') return alert('Заполните поле id!!!');
 
@@ -84,8 +87,9 @@ function getUserById(evt, id) {
     });
 }
 
-// должна записывать в БД юзера с полями name и age
+// Записывает в БД юзера с полями name и age
 function addUser(evt, name, age) {
+  if (evt.target.nodeName !== 'BUTTON') return;
   name = inputUserName.value.trim();
   age = inputUserAge.value.trim();
   if (name === '' || age === '') return alert('Поля name и age должны быть заполнены!!!');
@@ -109,8 +113,9 @@ function addUser(evt, name, age) {
     .catch(error => console.log('ERROR' + error));
 }
 
-// должна удалять из БД юзера по указанному id.
+// Удаляет из БД юзера по указанному id.
 function removeUser(evt, id) {
+  if (evt.target.nodeName !== 'BUTTON') return;
   id = inputId.value.trim();
   if (id === '') return alert('Заполните поле id!!!');
 
@@ -132,8 +137,9 @@ function removeUser(evt, id) {
     .catch(error => console.log('ERROR' + error));
 }
 
-// должна обновлять данные пользователя по id
+// Обновляет данные пользователя по id
 function updateUser(evt, id, user) {
+  if (evt.target.nodeName !== 'BUTTON') return;
   id = inputId.value.trim();
 
   const name = inputUserName.value.trim();
