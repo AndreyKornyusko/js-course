@@ -54,12 +54,12 @@ function getAllUsers(evt) {
       if (response.ok) return response.json();
       throw new Error('Error fetching data');
     })
-  .then(data => {
-    result.textContent = JSON.stringify(data);
-  })
-  .catch(error => {
-    console.error('Error: ', error);
-  });
+    .then(data => {
+      result.textContent = JSON.stringify(data);
+    })
+    .catch(error => {
+      console.error('Error: ', error);
+    });
 }
 
 // должна вернуть пользователя с переданным id
@@ -73,6 +73,10 @@ function getUserById(evt, id) {
       throw new Error('Error fetching data');
     })
     .then(data => {
+      console.log('data', data);
+      if (data.status !== 200) {
+        alert('No such user!');
+      }
       result.textContent = JSON.stringify(data);
     })
     .catch(error => {
@@ -84,7 +88,7 @@ function getUserById(evt, id) {
 function addUser(evt, name, age) {
   name = inputUserName.value.trim();
   age = inputUserAge.value.trim();
-  if (name === '' && age === '') return alert('Заполните поля name и age!!!');
+  if (name === '' || age === '') return alert('Поля name и age должны быть заполнены!!!');
 
   const newPost = {
     name,
@@ -108,13 +112,22 @@ function addUser(evt, name, age) {
 // должна удалять из БД юзера по указанному id.
 function removeUser(evt, id) {
   id = inputId.value.trim();
-  if (id === '') return alert('Нельзя вводить пустую строку!!!');
+  if (id === '') return alert('Заполните поле id!!!');
 
   fetch('https://test-users-api.herokuapp.com/users/' + id, {
     method: 'DELETE',
   })
-    .then(() => {
-      result.textContent = `User with id=${id} was successfully deleted`;
+    .then(response => {
+      if (response.ok) return response.json();
+      throw new Error('Error fetching data');
+    })
+    .then(data => {
+      console.log('data', data);
+      if (data.status !== 200) {
+        return alert('No such user!');
+      }
+      alert(`Пользователь с id=${id} успешно удален`);
+      result.textContent = JSON.stringify(data);
     })
     .catch(error => console.log('ERROR' + error));
 }
@@ -122,12 +135,11 @@ function removeUser(evt, id) {
 // должна обновлять данные пользователя по id
 function updateUser(evt, id, user) {
   id = inputId.value.trim();
-  if (id === '') return alert('Заполните все поля!!!');
 
   const name = inputUserName.value.trim();
   const age = inputUserAge.value.trim();
-  if (name === '' && age === '')
-    return alert('Нельзя вводить пустую строку!!!');
+  if (id === '' || name === '' || age === '')
+    return alert('Заполните все поля!!!');
 
   user = {
     name,
@@ -143,6 +155,10 @@ function updateUser(evt, id, user) {
   })
     .then(response => response.json())
     .then(data => {
+      if (data.status !== 200) {
+        return alert('No such user!');
+      }
+      alert(`User with id=${id} was succsessfully updated`);
       result.textContent = JSON.stringify(data);
     })
     .catch(error => console.log('ERROR' + error));
