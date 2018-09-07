@@ -58,6 +58,7 @@ function getAllUsers(evt) {
     })
     .then(data => {
       result.textContent = JSON.stringify(data);
+      return true;
     })
     .catch(error => {
       console.error('Error: ', error);
@@ -68,7 +69,10 @@ function getAllUsers(evt) {
 function getUserById(evt, id) {
   if (evt.target.nodeName !== 'BUTTON') return;
   id = inputId.value.trim();
-  if (id === '') return alert('Заполните поле id!!!');
+  if (id === '') {
+    result.textContent = 'Заполните поле id!!!';
+    throw new Error('Заполните поле id!!!');
+  }
 
   fetch('https://test-users-api.herokuapp.com/users/' + id)
     .then(response => {
@@ -78,7 +82,8 @@ function getUserById(evt, id) {
     .then(data => {
       console.log('data', data);
       if (data.status !== 200) {
-        alert('No such user!');
+        result.textContent = 'No such user!!!';
+        throw new Error('No such user!!!');
       }
       result.textContent = JSON.stringify(data);
     })
@@ -92,7 +97,10 @@ function addUser(evt, name, age) {
   if (evt.target.nodeName !== 'BUTTON') return;
   name = inputUserName.value.trim();
   age = inputUserAge.value.trim();
-  if (name === '' || age === '') return alert('Поля name и age должны быть заполнены!!!');
+  if (name === '' || age === '') {
+    result.textContent = 'Поля name и age должны быть заполнены!!!';
+    throw new Error('Поля name и age должны быть заполнены!!!');
+  }
 
   const newPost = {
     name,
@@ -109,6 +117,7 @@ function addUser(evt, name, age) {
     .then(response => response.json())
     .then(data => {
       result.textContent = JSON.stringify(data);
+      return true;
     })
     .catch(error => console.log('ERROR' + error));
 }
@@ -117,7 +126,10 @@ function addUser(evt, name, age) {
 function removeUser(evt, id) {
   if (evt.target.nodeName !== 'BUTTON') return;
   id = inputId.value.trim();
-  if (id === '') return alert('Заполните поле id!!!');
+  if (id === '') {
+    result.textContent = 'Заполните поле id!!!';
+    throw new Error('Заполните поле id!!!');
+  }
 
   fetch('https://test-users-api.herokuapp.com/users/' + id, {
     method: 'DELETE',
@@ -129,10 +141,11 @@ function removeUser(evt, id) {
     .then(data => {
       console.log('data', data);
       if (data.status !== 200) {
-        return alert('No such user!');
+        result.textContent = 'No such user!!!';
+        throw new Error('No such user!!!');
       }
-      alert(`Пользователь с id=${id} успешно удален`);
-      result.textContent = JSON.stringify(data);
+      result.textContent = 'DELETED' + JSON.stringify(data);
+      return true;
     })
     .catch(error => console.log('ERROR' + error));
 }
@@ -144,8 +157,10 @@ function updateUser(evt, id, user) {
 
   const name = inputUserName.value.trim();
   const age = inputUserAge.value.trim();
-  if (id === '' || name === '' || age === '')
-    return alert('Заполните все поля!!!');
+  if (id === '' || name === '' || age === '') {
+    result.textContent = 'Заполните все поля!!!';
+    throw new Error('Заполните все поля!!!');
+  }
 
   user = {
     name,
@@ -162,10 +177,11 @@ function updateUser(evt, id, user) {
     .then(response => response.json())
     .then(data => {
       if (data.status !== 200) {
-        return alert('No such user!');
+        result.textContent = 'No such user!';
+        throw new Error('No such user!');
       }
-      alert(`User with id=${id} was succsessfully updated`);
-      result.textContent = JSON.stringify(data);
+      result.textContent = 'UPDATED' + JSON.stringify(data);
+      return true;
     })
     .catch(error => console.log('ERROR' + error));
 }
