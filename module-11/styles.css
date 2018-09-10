@@ -1,0 +1,65 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+li {
+  list-style: none;
+}
+.wrapper {
+  display: flex;
+  flex-wrap: nowrap;
+}
+
+.goods-card {
+  width: 450px;
+  padding: 20px;
+}
+
+.form {
+  width: 350px;
+  padding: 50px;
+}
+
+.form-section {
+  margin-bottom: 20px;
+}
+
+button {
+  width: 80px;
+  height: 30px;
+  font-size: 18px;
+  font-weight: bold;
+  background-color: rgb(48, 170, 103);
+  cursor: pointer;
+}
+
+#root {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  width: 1600px;
+}
+
+.goods-card-title {
+  text-align: center;
+  font-size: 25px;
+}
+
+.goods-card-img {
+  margin-top: 15px;
+  margin-bottom: 15px;
+  display: inline-block;
+  width: 400px;
+}
+
+.goods-card-text {
+  font-size: 20px;
+}
+
+.not-found {
+  font-size: 30px;
+  text-align: center;
+  padding: 50px;
+}
