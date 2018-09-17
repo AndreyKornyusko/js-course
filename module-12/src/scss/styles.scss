@@ -1,0 +1,41 @@
+/*
+   Import partials below
+*/
+@import 'normalize';
+
+.wrapper {
+  padding-top: 30px;
+  padding-left: 20px;
+}
+
+input {
+  width: 400px;
+  height: 40px;
+  font-size: 20px;
+}
+
+li {
+  list-style: none;
+}
+
+button {
+  width: 100px;
+  height: 40px;
+  margin-left: 10px;
+  background-color: rgb(15, 163, 173);
+  cursor: pointer;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+.link-card a {
+  font-size: 20px;
+}
+
+.link-card button {
+  width: 200px;
+}
+
+button:hover {
+  background-color: rgb(37, 180, 190);
+}
