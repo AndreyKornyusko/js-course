@@ -40,11 +40,11 @@
     - Каждая карточка содержит превью изображение и базовую информацию о странице по адресу закладки,
       для получения этой информации воспользуйтесь этим Rest API - https://www.linkpreview.net/
 */
-// my key 5ba0169ddad6ed12cf668e216d39d60a742e179cfe78b in https://www.linkpreview.net/
+// my key 5ba0af33f2af89d0737b612698e2451865b0a0af180af in https://www.linkpreview.net/
 
 const form = document.querySelector('.js-form');
 const inputLink = document.querySelector('input[name=link]');
-const inputDescr = document.querySelector('input[name=descr]');
+// const inputDescr = document.querySelector('input[name=descr]');
 const addBtn = document.querySelector('.form button');
 const container = document.querySelector('#root');
 const sourse = document.querySelector('#card').innerHTML.trim();
@@ -54,6 +54,7 @@ const constants = {
   links: [],
   delBtn:document.querySelector('#root'),
 };
+
 
 
 createTemplateFromLs();
@@ -87,8 +88,18 @@ function onClickAdd(evt) {
   form.reset();
 
   constants.delBtn = document.querySelector('.link-card button');
-  localStorage.setItem('links',JSON.stringify(constants.links));
-  
+
+  getLinkData().then(data =>{
+    console.log('data',data);
+    const firstLiImg = document.querySelector('li img');
+    const firstLiTitle =document.querySelector('li a')
+    firstLiImg.setAttribute("src",`${data.image}`);
+    firstLiTitle.textContent = data.title;
+    constants.links[0].img = data.image;
+    constants.links[0].title = data.title;
+
+    localStorage.setItem('links',JSON.stringify(constants.links));
+  });
 }
 
 function isEnteredUrlValid() {
@@ -102,14 +113,15 @@ function isEnteredUrlValid() {
     const isLinkValid = constants.links.some(isValid);
     if (!isLinkValid) {
       const linksItem = {
-        descr: inputDescr.value.trim(),
+        // descr: inputDescr.value.trim(),
         link: inputLink.value.trim(),
         id: Date.now(),
       };
 
       constants.links.unshift(linksItem);
       console.log('constants.links:', constants.links);
-      createTemplate();constants.links
+      createTemplate();
+      constants.links
     } else {
       return alert('Such a bookmark already exists');
     }
@@ -132,5 +144,19 @@ function createTemplateFromLs() {
   };
 }
 
+function getLinkData() {
+  const apiKey = '5ba0af33f2af89d0737b612698e2451865b0a0af180af';
+  const getLink = constants.links[0].link;
+  const url = `http://api.linkpreview.net/?key=${apiKey}&q=${getLink}`;
+  return fetch(url)
+  .then(response =>{
+    if(response.ok) return response.json();
+
+    throw new Error(`Error while fetching: ${response.statusText}`);
+  })
+  .catch(error => console.log(error));
+}
+
 addBtn.addEventListener('click', onClickAdd);
 constants.delBtn.addEventListener('click', onClickDel);
+

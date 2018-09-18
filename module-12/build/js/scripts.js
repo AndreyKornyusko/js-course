@@ -40,11 +40,11 @@
     - Каждая карточка содержит превью изображение и базовую информацию о странице по адресу закладки,
       для получения этой информации воспользуйтесь этим Rest API - https://www.linkpreview.net/
 */
-// my key 5ba0169ddad6ed12cf668e216d39d60a742e179cfe78b in https://www.linkpreview.net/
+// my key 5ba0af33f2af89d0737b612698e2451865b0a0af180af in https://www.linkpreview.net/
 
 var form = document.querySelector('.js-form');
 var inputLink = document.querySelector('input[name=link]');
-var inputDescr = document.querySelector('input[name=descr]');
+// const inputDescr = document.querySelector('input[name=descr]');
 var addBtn = document.querySelector('.form button');
 var container = document.querySelector('#root');
 var sourse = document.querySelector('#card').innerHTML.trim();
@@ -87,7 +87,18 @@ function onClickAdd(evt) {
   form.reset();
 
   constants.delBtn = document.querySelector('.link-card button');
-  localStorage.setItem('links', JSON.stringify(constants.links));
+
+  getLinkData().then(function (data) {
+    console.log('data', data);
+    var firstLiImg = document.querySelector('li img');
+    var firstLiTitle = document.querySelector('li a');
+    firstLiImg.setAttribute("src", '' + data.image);
+    firstLiTitle.textContent = data.title;
+    constants.links[0].img = data.image;
+    constants.links[0].title = data.title;
+
+    localStorage.setItem('links', JSON.stringify(constants.links));
+  });
 }
 
 function isEnteredUrlValid() {
@@ -103,14 +114,15 @@ function isEnteredUrlValid() {
     var isLinkValid = constants.links.some(isValid);
     if (!isLinkValid) {
       var linksItem = {
-        descr: inputDescr.value.trim(),
+        // descr: inputDescr.value.trim(),
         link: inputLink.value.trim(),
         id: Date.now()
       };
 
       constants.links.unshift(linksItem);
       console.log('constants.links:', constants.links);
-      createTemplate();constants.links;
+      createTemplate();
+      constants.links;
     } else {
       return alert('Such a bookmark already exists');
     }
@@ -133,6 +145,19 @@ function createTemplateFromLs() {
     }, '');
     container.insertAdjacentHTML('afterbegin', markup);
   };
+}
+
+function getLinkData() {
+  var apiKey = '5ba0af33f2af89d0737b612698e2451865b0a0af180af';
+  var getLink = constants.links[0].link;
+  var url = 'http://api.linkpreview.net/?key=' + apiKey + '&q=' + getLink;
+  return fetch(url).then(function (response) {
+    if (response.ok) return response.json();
+
+    throw new Error('Error while fetching: ' + response.statusText);
+  }).catch(function (error) {
+    return console.log(error);
+  });
 }
 
 addBtn.addEventListener('click', onClickAdd);
