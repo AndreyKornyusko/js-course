@@ -100,6 +100,8 @@ function onClickAdd(evt) {
 
     localStorage.setItem('links',JSON.stringify(constants.links));
   });
+  
+  localStorage.setItem('links',JSON.stringify(constants.links));
 }
 
 function isEnteredUrlValid() {
