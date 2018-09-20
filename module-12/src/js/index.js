@@ -109,9 +109,6 @@ function isEnteredUrlValid() {
   const isValid = val => val.link === inputLink.value.trim();
   const isLinkValid = constants.links.some(isValid);
 
-  console.log('constants.links befor validation',constants.links);
-  console.log('isLinkValid',isLinkValid);
-
   if (!isUrlValid) {
     return alert('Your URL is not valid');
   };
