@@ -72,7 +72,7 @@ function onClickDel(evt) {
   const id = Number(evt.target.parentNode.dataset.id);
   const updatedLinksList = constants.links.filter(val=>val.id!==id);
   constants.links = updatedLinksList;
-  localStorage.setItem('links',JSON.stringify(constants.links));
+  setLocalStorage();
   parent.remove();
   console.log('constants.links',constants.links);
 }
@@ -83,52 +83,65 @@ function onClickAdd(evt) {
   if (target.nodeName !== 'BUTTON'||action !== 'add') return;
   evt.preventDefault();
   
-  isEnteredUrlValid();
-
-  form.reset();
-
-  constants.delBtn = document.querySelector('.link-card button');
-
   getLinkData().then(data =>{
     console.log('data',data);
-    const firstLiImg = document.querySelector('li img');
-    const firstLiTitle =document.querySelector('li a')
-    firstLiImg.setAttribute("src",`${data.image}`);
-    firstLiTitle.textContent = data.title;
-    constants.links[0].img = data.image;
-    constants.links[0].title = data.title;
 
-    localStorage.setItem('links',JSON.stringify(constants.links));
+    const linksItem = {
+    link: inputLink.value.trim(),
+    id: Date.now(),
+    img: data.image,
+    title: data.title,
+    };
+
+    constants.links.unshift(linksItem);
+    createTemplate();
+    console.log('constants.links:', constants.links);
+
+    setLocalStorage();
+    form.reset();
   });
   
-  localStorage.setItem('links',JSON.stringify(constants.links));
+  setLocalStorage();
 }
 
 function isEnteredUrlValid() {
   const enteredUrl = inputLink.value.trim();
   const isUrlValid = /^((https?|ftp)\:\/\/)/.test(enteredUrl);
-  // /^((https?|ftp)\:\/\/)?([a-z0-9]{1})((\.[a-z0-9-])|([a-z0-9-]))*\.([a-z]{2,6})(\/?)$/
+  const isValid = val => val.link === inputLink.value.trim();
+  const isLinkValid = constants.links.some(isValid);
+
   if (!isUrlValid) {
     return alert('Your URL is not valid');
-  } else {
-    const isValid = val => val.link === inputLink.value.trim();
-    const isLinkValid = constants.links.some(isValid);
-    if (!isLinkValid) {
-      const linksItem = {
-        // descr: inputDescr.value.trim(),
-        link: inputLink.value.trim(),
-        id: Date.now(),
-      };
-
-      constants.links.unshift(linksItem);
-      console.log('constants.links:', constants.links);
-      createTemplate();
-      constants.links
-    } else {
-      return alert('Such a bookmark already exists');
-    }
-  }
+  };
+   if (isLinkValid) {
+    return alert('Such a bookmark already exists');
+  };
 }
+
+// function isEnteredUrlValid() {
+//   const enteredUrl = inputLink.value.trim();
+//   const isUrlValid = /^((https?|ftp)\:\/\/)/.test(enteredUrl);
+//   // /^((https?|ftp)\:\/\/)?([a-z0-9]{1})((\.[a-z0-9-])|([a-z0-9-]))*\.([a-z]{2,6})(\/?)$/
+//   if (!isUrlValid) {
+//     return alert('Your URL is not valid');
+//   } else {
+//     const isValid = val => val.link === inputLink.value.trim();
+//     const isLinkValid = constants.links.some(isValid);
+//     if (!isLinkValid) {
+//       const linksItem = {
+//         // descr: inputDescr.value.trim(),
+//         link: inputLink.value.trim(),
+//         id: Date.now(),
+//       };
+
+//       constants.links.unshift(linksItem);
+//       console.log('constants.links:', constants.links);
+//       createTemplate();
+//     } else {
+//       return alert('Such a bookmark already exists');
+//     }
+//   }
+// }
 
 function createTemplate() {
   const template = Handlebars.compile(sourse);
@@ -147,8 +160,11 @@ function createTemplateFromLs() {
 }
 
 function getLinkData() {
+  isEnteredUrlValid();
+
   const apiKey = '5ba0af33f2af89d0737b612698e2451865b0a0af180af';
-  const getLink = constants.links[0].link;
+  const getLink = inputLink.value.trim();
+  console.log('getLink', getLink);
   const url = `http://api.linkpreview.net/?key=${apiKey}&q=${getLink}`;
   return fetch(url)
   .then(response =>{
@@ -157,6 +173,10 @@ function getLinkData() {
     throw new Error(`Error while fetching: ${response.statusText}`);
   })
   .catch(error => console.log(error));
+}
+
+function setLocalStorage() {
+  localStorage.setItem('links',JSON.stringify(constants.links));
 }
 
 addBtn.addEventListener('click', onClickAdd);

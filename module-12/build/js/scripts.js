@@ -71,7 +71,7 @@ function onClickDel(evt) {
     return val.id !== id;
   });
   constants.links = updatedLinksList;
-  localStorage.setItem('links', JSON.stringify(constants.links));
+  setLocalStorage();
   parent.remove();
   console.log('constants.links', constants.links);
 }
@@ -82,54 +82,67 @@ function onClickAdd(evt) {
   if (target.nodeName !== 'BUTTON' || action !== 'add') return;
   evt.preventDefault();
 
-  isEnteredUrlValid();
-
-  form.reset();
-
-  constants.delBtn = document.querySelector('.link-card button');
-
   getLinkData().then(function (data) {
     console.log('data', data);
-    var firstLiImg = document.querySelector('li img');
-    var firstLiTitle = document.querySelector('li a');
-    firstLiImg.setAttribute("src", '' + data.image);
-    firstLiTitle.textContent = data.title;
-    constants.links[0].img = data.image;
-    constants.links[0].title = data.title;
 
-    localStorage.setItem('links', JSON.stringify(constants.links));
+    var linksItem = {
+      link: inputLink.value.trim(),
+      id: Date.now(),
+      img: data.image,
+      title: data.title
+    };
+
+    constants.links.unshift(linksItem);
+    createTemplate();
+    console.log('constants.links:', constants.links);
+
+    setLocalStorage();
+    form.reset();
   });
 
-  localStorage.setItem('links', JSON.stringify(constants.links));
+  setLocalStorage();
 }
 
 function isEnteredUrlValid() {
   var enteredUrl = inputLink.value.trim();
   var isUrlValid = /^((https?|ftp)\:\/\/)/.test(enteredUrl);
-  // /^((https?|ftp)\:\/\/)?([a-z0-9]{1})((\.[a-z0-9-])|([a-z0-9-]))*\.([a-z]{2,6})(\/?)$/
+  var isValid = function isValid(val) {
+    return val.link === inputLink.value.trim();
+  };
+  var isLinkValid = constants.links.some(isValid);
+
   if (!isUrlValid) {
     return alert('Your URL is not valid');
-  } else {
-    var isValid = function isValid(val) {
-      return val.link === inputLink.value.trim();
-    };
-    var isLinkValid = constants.links.some(isValid);
-    if (!isLinkValid) {
-      var linksItem = {
-        // descr: inputDescr.value.trim(),
-        link: inputLink.value.trim(),
-        id: Date.now()
-      };
-
-      constants.links.unshift(linksItem);
-      console.log('constants.links:', constants.links);
-      createTemplate();
-      constants.links;
-    } else {
-      return alert('Such a bookmark already exists');
-    }
-  }
+  };
+  if (isLinkValid) {
+    return alert('Such a bookmark already exists');
+  };
 }
+
+// function isEnteredUrlValid() {
+//   const enteredUrl = inputLink.value.trim();
+//   const isUrlValid = /^((https?|ftp)\:\/\/)/.test(enteredUrl);
+//   // /^((https?|ftp)\:\/\/)?([a-z0-9]{1})((\.[a-z0-9-])|([a-z0-9-]))*\.([a-z]{2,6})(\/?)$/
+//   if (!isUrlValid) {
+//     return alert('Your URL is not valid');
+//   } else {
+//     const isValid = val => val.link === inputLink.value.trim();
+//     const isLinkValid = constants.links.some(isValid);
+//     if (!isLinkValid) {
+//       const linksItem = {
+//         // descr: inputDescr.value.trim(),
+//         link: inputLink.value.trim(),
+//         id: Date.now(),
+//       };
+
+//       constants.links.unshift(linksItem);
+//       console.log('constants.links:', constants.links);
+//       createTemplate();
+//     } else {
+//       return alert('Such a bookmark already exists');
+//     }
+//   }
+// }
 
 function createTemplate() {
   var template = Handlebars.compile(sourse);
@@ -150,8 +163,11 @@ function createTemplateFromLs() {
 }
 
 function getLinkData() {
+  isEnteredUrlValid();
+
   var apiKey = '5ba0af33f2af89d0737b612698e2451865b0a0af180af';
-  var getLink = constants.links[0].link;
+  var getLink = inputLink.value.trim();
+  console.log('getLink', getLink);
   var url = 'http://api.linkpreview.net/?key=' + apiKey + '&q=' + getLink;
   return fetch(url).then(function (response) {
     if (response.ok) return response.json();
@@ -160,6 +176,10 @@ function getLinkData() {
   }).catch(function (error) {
     return console.log(error);
   });
+}
+
+function setLocalStorage() {
+  localStorage.setItem('links', JSON.stringify(constants.links));
 }
 
 addBtn.addEventListener('click', onClickAdd);
