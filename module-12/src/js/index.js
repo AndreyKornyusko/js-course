@@ -55,8 +55,6 @@ const constants = {
   delBtn:document.querySelector('#root'),
 };
 
-
-
 createTemplateFromLs();
 
 function onClickDel(evt) {
@@ -82,6 +80,8 @@ function onClickAdd(evt) {
   const action = target.dataset.action;
   if (target.nodeName !== 'BUTTON'||action !== 'add') return;
   evt.preventDefault();
+
+  isEnteredUrlValid();
   
   getLinkData().then(data =>{
     console.log('data',data);
@@ -100,8 +100,7 @@ function onClickAdd(evt) {
     setLocalStorage();
     form.reset();
   });
-  
-  setLocalStorage();
+
 }
 
 function isEnteredUrlValid() {
@@ -110,38 +109,16 @@ function isEnteredUrlValid() {
   const isValid = val => val.link === inputLink.value.trim();
   const isLinkValid = constants.links.some(isValid);
 
+  console.log('constants.links befor validation',constants.links);
+  console.log('isLinkValid',isLinkValid);
+
   if (!isUrlValid) {
     return alert('Your URL is not valid');
   };
-   if (isLinkValid) {
+  if (isLinkValid) {
     return alert('Such a bookmark already exists');
-  };
+  }
 }
-
-// function isEnteredUrlValid() {
-//   const enteredUrl = inputLink.value.trim();
-//   const isUrlValid = /^((https?|ftp)\:\/\/)/.test(enteredUrl);
-//   // /^((https?|ftp)\:\/\/)?([a-z0-9]{1})((\.[a-z0-9-])|([a-z0-9-]))*\.([a-z]{2,6})(\/?)$/
-//   if (!isUrlValid) {
-//     return alert('Your URL is not valid');
-//   } else {
-//     const isValid = val => val.link === inputLink.value.trim();
-//     const isLinkValid = constants.links.some(isValid);
-//     if (!isLinkValid) {
-//       const linksItem = {
-//         // descr: inputDescr.value.trim(),
-//         link: inputLink.value.trim(),
-//         id: Date.now(),
-//       };
-
-//       constants.links.unshift(linksItem);
-//       console.log('constants.links:', constants.links);
-//       createTemplate();
-//     } else {
-//       return alert('Such a bookmark already exists');
-//     }
-//   }
-// }
 
 function createTemplate() {
   const template = Handlebars.compile(sourse);
@@ -160,12 +137,10 @@ function createTemplateFromLs() {
 }
 
 function getLinkData() {
-  isEnteredUrlValid();
-
   const apiKey = '5ba0af33f2af89d0737b612698e2451865b0a0af180af';
   const getLink = inputLink.value.trim();
-  console.log('getLink', getLink);
   const url = `http://api.linkpreview.net/?key=${apiKey}&q=${getLink}`;
+   
   return fetch(url)
   .then(response =>{
     if(response.ok) return response.json();
