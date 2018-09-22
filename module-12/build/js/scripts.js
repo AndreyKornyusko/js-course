@@ -44,7 +44,6 @@
 
 var form = document.querySelector('.js-form');
 var inputLink = document.querySelector('input[name=link]');
-// const inputDescr = document.querySelector('input[name=descr]');
 var addBtn = document.querySelector('.form button');
 var container = document.querySelector('#root');
 var sourse = document.querySelector('#card').innerHTML.trim();
@@ -85,7 +84,10 @@ function onClickAdd(evt) {
   if (target.nodeName !== 'BUTTON' || action !== 'add') return;
   evt.preventDefault();
 
-  isEnteredUrlValid();
+  if (!isEnteredUrlValid()) {
+    form.reset();
+    return;
+  };
 
   getLinkData().then(function (data) {
     console.log('data', data);
@@ -115,11 +117,15 @@ function isEnteredUrlValid() {
   var isLinkValid = constants.links.some(isValid);
 
   if (!isUrlValid) {
-    return alert('Your URL is not valid');
+    alert('Your URL is not valid');
+    return false;
   };
   if (isLinkValid) {
-    return alert('Such a bookmark already exists');
+    alert('Such a bookmark already exists');
+    return false;
   }
+
+  return true;
 }
 
 function createTemplate() {
