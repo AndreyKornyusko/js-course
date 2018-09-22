@@ -48,11 +48,13 @@ const inputLink = document.querySelector('input[name=link]');
 const addBtn = document.querySelector('.form button');
 const container = document.querySelector('#root');
 const sourse = document.querySelector('#card').innerHTML.trim();
+const delBtn = document.querySelector('#root');
 
+addBtn.addEventListener('click', onClickAdd);
+delBtn.addEventListener('click', onClickDel);
 
 const constants = {
   links: [],
-  delBtn:document.querySelector('#root'),
 };
 
 createTemplateFromLs();
@@ -65,7 +67,7 @@ function onClickDel(evt) {
 
   if (nodeName !== 'BUTTON' || action !== 'delete') return;
 
-  const parent = evt.target.parentNode;
+  const parent = evt.target.closest('.link-card');
 
   const id = Number(evt.target.parentNode.dataset.id);
   const updatedLinksList = constants.links.filter(val=>val.id!==id);
@@ -136,7 +138,7 @@ function createTemplateFromLs() {
 function getLinkData() {
   const apiKey = '5ba0af33f2af89d0737b612698e2451865b0a0af180af';
   const getLink = inputLink.value.trim();
-  const url = `http://api.linkpreview.net/?key=${apiKey}&q=${getLink}`;
+  const url = `https://api.linkpreview.net/?key=${apiKey}&q=${getLink}`;
    
   return fetch(url)
   .then(response =>{
@@ -151,6 +153,5 @@ function setLocalStorage() {
   localStorage.setItem('links',JSON.stringify(constants.links));
 }
 
-addBtn.addEventListener('click', onClickAdd);
-constants.delBtn.addEventListener('click', onClickDel);
+
 
