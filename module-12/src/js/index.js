@@ -136,6 +136,7 @@ function createTemplateFromLs() {
   if(linksFromLs !== null){
     constants.links = linksFromLs;
     const template = Handlebars.compile(sourse);
+    console.log('templete from ls',template);
     const markup = constants.links.reduce((acc,item)=>acc + template(item),'');
     container.insertAdjacentHTML('afterbegin', markup);
   };
@@ -148,7 +149,8 @@ function getLinkData() {
    
   return fetch(url)
   .then(response =>{
-    if(response.ok) return response.json();
+    console.log('response.json()', response.json);
+    if(response.ok) {return response.json()};
 
     throw new Error(`Error while fetching: ${response.statusText}`);
   })

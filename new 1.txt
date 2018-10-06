@@ -1,0 +1,20 @@
+  // const linksItem = {
+  //   link: inputLink.value.trim(),
+  //   id: Date.now(),
+  // };
+  // constants.links.unshift(linksItem);
+  // console.log('constants.links:', constants.links);
+
+  // function isEnteredUrlValid() {
+//   const enteredUrl = inputLink.value.trim();
+//   const isUrlValid = /^((https?|ftp)\:\/\/)/.test(enteredUrl);
+//   const isValid = val => val.link === inputLink.value.trim();
+//   const isLinkValid = constants.links.some(isValid);
+
+//   if (!isUrlValid) {
+//     return alert('Your URL is not valid');
+//   };
+//   if (isLinkValid) {
+//     return alert('Such a bookmark already exists');
+//   };
+// }

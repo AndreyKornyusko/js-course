@@ -139,6 +139,7 @@ function createTemplateFromLs() {
   if (linksFromLs !== null) {
     constants.links = linksFromLs;
     var template = Handlebars.compile(sourse);
+    console.log('templete from ls', template);
     var markup = constants.links.reduce(function (acc, item) {
       return acc + template(item);
     }, '');
@@ -152,7 +153,10 @@ function getLinkData() {
   var url = 'https://api.linkpreview.net/?key=' + apiKey + '&q=' + getLink;
 
   return fetch(url).then(function (response) {
-    if (response.ok) return response.json();
+    console.log('response.json()', response.json);
+    if (response.ok) {
+      return response.json();
+    };
 
     throw new Error('Error while fetching: ' + response.statusText);
   }).catch(function (error) {

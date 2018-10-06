@@ -37,9 +37,9 @@ class Hamburger {
    * @param {String} topping - Тип добавки
    */
   addTopping(topping) {
-    !this.toppings.includes(topping)
-      ? this.toppings.push(topping)
-      : this.toppings;
+    !this._toppings.includes(topping)
+      ? this._toppings.push(topping)
+      : this._toppings;
   }
 
   /**

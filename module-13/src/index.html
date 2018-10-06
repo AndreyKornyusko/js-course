@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <div class="wrapper">
+    <form class="form js-form">
+      <!-- <input type="text" name="descr" placeholder="Enter description of your link"> -->
+      <input type="text" name="link" placeholder="Enter your link">
+      <button type="button" data-action="add">добавить</button>
+    </form>
+
+    <template id="card">
+      <li class="link-card" data-id="{{id}}">
+        <img src="{{img}}" alt="Page previev">
+        <a href="{{link}}" class="link" target="_blank">{{title}}</a>
+        <button type="button" data-action="delete">удалить карточку</button>
+      </li>
+    </template>
+
+    <ul class="list" id="root">
+
+    </ul>
+  </div>
+
+</body>
+</html>

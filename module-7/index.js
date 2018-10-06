@@ -63,13 +63,22 @@ const createPostCard = function(post) {
   return postNode;
 };
 
-const createCards = function(posts) {
-  let postNodes = posts.map(card => createPostCard(card));
+const createCards = function(arr) {
+  let postNodes = arr.map(elem => createPostCard(elem));
   return postNodes;
 };
 
 const wrapper = document.querySelector('.wrapper');
 const postCard = createCards(posts);
-// console.log(...postCard);
-// wrapper.appendChild(...postCard); Оператор Рест не работает в этом случае почему-то
-postCard.forEach(postItem => wrapper.appendChild(postItem));
+console.log('postCard',postCard);
+wrapper.append(...postCard);
+// postCard.forEach(postItem => wrapper.appendChild(postItem));
+
+
+// Альтернативное решение
+
+// function createCards(arr) {
+// return arr.reduce((acc, note) => acc.concat(createPostCard(note)), [])
+// }
+// const elements = createCards(posts)
+// wrapper.append(...elements)
