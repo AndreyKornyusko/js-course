@@ -1,0 +1,39 @@
+body {
+  background-color: #e8f0ef; }
+
+.wrapper {
+  padding-top: 30px;
+  padding-left: 20px; }
+
+input {
+  width: 400px;
+  height: 40px;
+  font-size: 20px; }
+
+li {
+  list-style: none;
+  margin-bottom: 5px; }
+
+button {
+  width: 100px;
+  height: 30px;
+  margin-left: 10px;
+  background-color: #0fa3ad;
+  cursor: pointer;
+  text-transform: uppercase;
+  font-weight: bold; }
+
+.link-card a {
+  font-size: 20px;
+  margin-left: 5px; }
+
+.link-card img {
+  width: 50px;
+  height: 50px; }
+
+.link-card button {
+  width: 200px; }
+
+button:hover {
+  background-color: #25b4be; }
+
