@@ -126,7 +126,6 @@ const galleryItems = [
   },
 ];
 
-
 const createGallery = arr => {
   const gallery = document.querySelector('.js-image-gallery');
   const fullview = document.createElement('div');
@@ -135,14 +134,21 @@ const createGallery = arr => {
   const preview = document.createElement('ul');
   preview.classList.add('preview');
 
-  gallery.append(fullview, preview); 
+  gallery.append(fullview, preview);
 
   for (let i = 0; i < arr.length; i++) {
-    preview.insertAdjacentHTML('beforeend', `<li class="preview-item"><img src=${arr[i].preview} data-fullview=${arr[i].fullview} alt=${arr[i].alt}></li>`);
+    preview.insertAdjacentHTML(
+      'beforeend',
+      `<li class="preview-item"><img src=${arr[i].preview} data-fullview=${
+        arr[i].fullview
+      } alt=${arr[i].alt}></li>`,
+    );
   }
 
   fullview.insertAdjacentHTML(
-    'beforeend', `<img src=${arr[0].fullview} alt=${arr[0].alt}>`);
+    'beforeend',
+    `<img src=${arr[0].fullview} alt=${arr[0].alt}>`,
+  );
 
   function getRandomInRange(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -150,22 +156,29 @@ const createGallery = arr => {
 
   const onClick = event => {
     event.preventDefault();
-    if (event.target !== event.currentTarget) {
-      const parentNode = event.target.parentNode;
+    console.log('event', event);
+    const target = event.target;
+    const nodeName = target.nodeName;
+    if (nodeName !== 'IMG') return;
+    const parentNode = event.target.parentNode;
 
-      const previewImgsLiArr = document.querySelectorAll('.preview-item');
-      const previewArr = Array.from(previewImgsLiArr);
-      previewArr.forEach(imgLi => imgLi.style.backgroundColor = 'rgb(255, 255, 255)');
-      
-      parentNode.style.backgroundColor = `rgb(${getRandomInRange(0, 255)}, ${getRandomInRange(0, 255)}, ${getRandomInRange(0, 255)})`;
+    const previewImgsLiArr = document.querySelectorAll('.preview-item');
+    const previewArr = Array.from(previewImgsLiArr);
+    previewArr.forEach(
+      imgLi => (imgLi.style.backgroundColor = 'rgb(255, 255, 255)'),
+    );
 
-      const galleryImgData = event.target.dataset.fullview;
-      const galleryImgAlt = event.target.alt;
-      const fullViewImg = document.querySelector('.fullview img');
-      fullViewImg.setAttribute("src", galleryImgData);
-      fullViewImg.setAttribute("alt", galleryImgAlt);
-       console.log(gallery);
-     }
+    parentNode.style.backgroundColor = `rgb(${getRandomInRange(
+      0,
+      255,
+    )}, ${getRandomInRange(0, 255)}, ${getRandomInRange(0, 255)})`;
+
+    const galleryImgData = event.target.dataset.fullview;
+    const galleryImgAlt = event.target.alt;
+    const fullViewImg = document.querySelector('.fullview img');
+    fullViewImg.setAttribute('src', galleryImgData);
+    fullViewImg.setAttribute('alt', galleryImgAlt);
+    console.log(gallery);
   };
 
   preview.addEventListener('click', onClick);
