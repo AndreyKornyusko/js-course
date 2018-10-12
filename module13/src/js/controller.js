@@ -46,7 +46,7 @@ export default class Controller {
     if (!this.isEnteredUrlValid(inputLinkValue)) {
       this._view.refs.form.reset();
       return;
-    };
+    }
 
     this._model.addData(inputLinkValue).then(data => {
       console.log('data', data);

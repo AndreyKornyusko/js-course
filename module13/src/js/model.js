@@ -1,3 +1,4 @@
+import axios from 'axios';
 export default class Model {
   constructor(items = []) {
     this._items = items;
@@ -10,17 +11,13 @@ export default class Model {
   }
 
   getLinkData(inputLinkValue) {
-    return (
-      fetch(this.getUrl(inputLinkValue))
-        .then(response => {
-          if (response.ok) {
-            return response.json();
-          }
-
-          throw new Error(`Error while fetching: ${response.statusText}`);
-        })
-        .catch(error => console.log(error))
-    );
+    return axios
+      .get(this.getUrl(inputLinkValue))
+      .then(response =>{
+        console.log('response.data',response.data);
+        return response.data
+      } )
+      .catch(err => console.log(err));
   }
 
   addData(inputLinkValue) {
@@ -28,7 +25,7 @@ export default class Model {
       const linksItem = {
         link: inputLinkValue,
         id: Date.now(),
-        img: data.image,
+        image: data.image,
         title: data.title,
       };
       this._items.unshift(linksItem);
