@@ -57,7 +57,7 @@ export default class Controller {
   }
 
   isEnteredUrlValid(inputLinkValue) {
-    const isUrlValid = /^((https?|ftp)\:\/\/)/.test(inputLinkValue);
+    const isUrlValid = /^[a-zA-Z]/.test(inputLinkValue);
     const isValid = val => val.link === inputLinkValue;
     const isLinkValid = this._model._items.some(isValid);
 
